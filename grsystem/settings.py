@@ -63,7 +63,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'gr_bicirefacciones',
         'USER': 'root',
-        'PASSWORD': '1991nfs..',
+        'PASSWORD': '123456..',
         'HOST': '',
         'PORT': '',
     }
