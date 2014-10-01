@@ -82,6 +82,10 @@ USE_L10N = True
 
 USE_TZ = True
 
+#Unipath settings
+from unipath import Path
+PROJECT_PATH = Path(__file__).ancestor(2)
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
@@ -89,7 +93,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    PROJECT_PATH.child('static'),
 )
 
 # Django Suit configuration
