@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}{{ section.title }}{% endblock %}
+
+{% block content %}
+	
+	<div class="row">
+		<div class="large-12 columns"><hr></div>
+	</div>
+	
+	<div class="row">
+		<div class="large-9 columns">
+
+			<div class="row">
+				<div class="large-3 columns">
+					<div class="panel">
+						<h4><a href="#" class="fi-page-add"> Nuevo pedido</a></h4>
+					</div>
+				</div>
+				<div class="large-3 columns">
+					<div class="panel">
+						<h4><a href="#" class="fi-page-search"> Buscar pedido</a></h4>
+					</div>
+				</div>
+				<div class="large-3 columns">
+					<div class="panel">
+						<h4><a href="#" class="fi-list-thumbnails"> Productos</a></h4>
+					</div>
+				</div>
+				<div class="large-3 columns">
+					<div class="panel">
+						<h4><a href="#" class="fi-torsos-all"> Clientes</a></h4>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="large-3 columns">
+					<div class="panel">
+						<h4><a href="#" class="fi-map"> Rutas</a></h4>
+					</div>
+				</div>
+				<div class="large-3 columns">
+					<div class="panel">
+						<h4><a href="#" class="fi-torso-business"> Proveedores</a></h4>
+					</div>
+				</div>
+				<div class="large-3 columns">
+				</div>
+				<div class="large-3 columns">
+				</div>
+			</div>
+			
+		</div>
+		<div class="large-3 columns">
+			<div class="row">
+				<div class="large-12 columns">
+					<div class="panel">
+
+						{% if user.is_authenticated %}
+						<h5>Bienvenido {{ user.username|capfirst }}</h5>
+						<a href="/admin/logout/" class="button tiny">Cerrar sesión</a>
+						<hr>
+						{% else %}
+						<h5>Bienvenido invitado</h5>
+						<a href="/admin" class="button tiny">Iniciar sesión</a>
+						{% endif %}
+
+						<hr>
+
+						<h5>Productos en escasez</h5>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

@@ -74,6 +74,7 @@ class Producto (models.Model):
 	precio = models.DecimalField(max_digits=8, decimal_places=2,)
 	tipo = models.IntegerField(choices=TIPO_PRODUCTO, default=BICICLETA)
 	facturado = models.IntegerField(choices=FACTURADO, default=NO)
+	reserva = models.IntegerField(default=0)
 	anotaciones = models.TextField()
 	creacion = models.DateTimeField(auto_now=False, auto_now_add=True,)
 	actualizacion = models.DateTimeField(auto_now=True, auto_now_add=False,)

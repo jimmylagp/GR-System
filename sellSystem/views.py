@@ -3,5 +3,5 @@ from sellSystem.models import Producto
 
 # Create your views here.
 
-class index(TemplateView):
-	template_name = 'index.html'
+class home(TemplateView):
+	template_name = 'home.html'
