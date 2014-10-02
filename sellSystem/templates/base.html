@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>{% block title %}GR Bicirefacciones{% endblock %}</title>
+	<title>GR Bicirefacciones | {% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{{STATIC_URL}}css/foundation-icons.css" />
 	<link rel="stylesheet" href="{{STATIC_URL}}css/foundation.css" />
 	<script src="{{STATIC_URL}}js/vendor/modernizr.js"></script>
@@ -31,15 +31,15 @@
 			<ul class="left">
 				<li class="divider"></li>
 				<li class="has-form">
-					<div class="row collapse">
-						<form action="/productos/buscar">
+					<form action="/productos/buscar">
+						<div class="row collapse">
 							<div class="large-10 columns">
 								<input type="text" placeholder="Buscar un producto..."></div>
 							<div class="large-2 columns">
-								<input type="submit" class="button expand fi-magnifying-glass">
+								<button type="submit" class="button expand fi-magnifying-glass"></button>
 							</div>
-						</form>
-					</div>
+						</div>
+					</form>
 				</li>
 				<li class="divider"></li>
 			</ul>

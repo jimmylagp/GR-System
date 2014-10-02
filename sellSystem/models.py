@@ -80,6 +80,9 @@ class Producto (models.Model):
 	actualizacion = models.DateTimeField(auto_now=True, auto_now_add=False,)
 	id_proveedor = models.ForeignKey('Proveedor', verbose_name='Proveedores')
 
+	def __unicode__(self):
+		return '%s' % (self.nombre)
+
 
 class Pedido (models.Model):
 	descuento = models.IntegerField(default=0)

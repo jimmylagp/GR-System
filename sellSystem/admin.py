@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db.models import F
 from .models import *
 # Register your models here.
 
@@ -17,6 +18,21 @@ class TipoProducto(admin.SimpleListFilter):
 			return queryset.filter(tipo=self.value())
 		else:
 			return queryset
+
+class ReservaProducto(admin.SimpleListFilter):
+	title = "Reservas"
+	parameter_name = "reservas"
+
+	def lookups(self, request, model_admin):
+		return (
+			(1, "En reserva"),
+		)
+
+	def queryset(self, request, queryset):
+			if self.value() == '1':
+				return queryset.filter(cantidad=F('reserva'))
+			else:
+				return queryset
 
 class Facturado(admin.SimpleListFilter):
 	title = "Facturables"
@@ -64,7 +80,7 @@ class ProveedorAdmin(admin.ModelAdmin):
 class ProductoAdmin(admin.ModelAdmin):
 	list_display = ("cantidad", "nombre", "precio", "tipo", "facturado", "anotaciones",)
 	list_display_links = ("nombre",)
-	list_filter = ("id_proveedor", TipoProducto, Facturado,)
+	list_filter = ("id_proveedor", TipoProducto, ReservaProducto, Facturado,)
 	search_fields = ("nombre",)
 
 class PedidoAdmin(ReadOnlyModelAdmin):

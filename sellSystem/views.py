@@ -1,7 +1,13 @@
-from django.views.generic import TemplateView
+from django.views.generic import ListView
+from django.db.models import F
 from sellSystem.models import Producto
 
 # Create your views here.
 
-class home(TemplateView):
+class Home(ListView):
 	template_name = 'home.html'
+
+	queryset = Producto.objects.filter(cantidad__lte=F('reserva'))
+
+
+class Productos

@@ -59,8 +59,10 @@
 
 						{% if user.is_authenticated %}
 						<h5>Bienvenido {{ user.username|capfirst }}</h5>
-						<a href="/admin/logout/" class="button tiny">Cerrar sesión</a>
-						<hr>
+						<ul class="button-group">
+							<li><a href="/admin/" class="button tiny">Ir al administrador</a></li>
+							<li><a href="/admin/logout/" class="button tiny">Salir</a></li>
+						</ul>
 						{% else %}
 						<h5>Bienvenido invitado</h5>
 						<a href="/admin" class="button tiny">Iniciar sesión</a>
@@ -68,8 +70,14 @@
 
 						<hr>
 
-						<h5>Productos en escasez</h5>
-
+						<h5>Productos en reserva</h5>
+						<ul>
+							{% for producto in object_list %}
+							<li>
+								<span>{{ producto.nombre }}</span>
+							</li>
+							{% endfor %}
+						</ul>
 					</div>
 				</div>
 			</div>
