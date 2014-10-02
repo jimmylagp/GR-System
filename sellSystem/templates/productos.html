@@ -1,11 +1,83 @@
 {% extends "base.html" %}
+{% load humanize %}
 
 {% block title %}Lista de productos{% endblock %}
 
 {% block content %}
 
 	<div class="row">
-		
+		<div class="large-9 columns">
+			
+			<div class="row">
+				<div class="large-12 columns">
+					<div class="panel">
+						
+						<div class="row">
+							<div class="large-6 columns">
+								<div class="row collapse">
+									<div class="large-10 columns">
+										<input type="search" placeholder="Buscar un producto"></div>
+									<div class="large-2 columns">
+										<a href="#" class="button postfix fi-magnifying-glass"></a>
+									</div>
+								</div>
+							</div>
+							<div class="large-2 columns">
+								<select>
+									<option value="">Tipo</option>
+									<option value="starbuck">Starbuck</option>
+									<option value="hotdog">Hot Dog</option>
+									<option value="apollo">Apollo</option>
+								</select>
+							</div>
+							<div class="large-2 columns">
+								<select>
+									<option value="">Facturables</option>
+									<option value="starbuck">Starbuck</option>
+									<option value="hotdog">Hot Dog</option>
+									<option value="apollo">Apollo</option>
+								</select>
+							</div>
+							<div class="large-2 columns">
+								<button type="submit" class="button postfix">Buscar</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="large-12 columns">
+					<table>
+						<thead>
+							<tr>
+								<th width="8%">Cantidad</th>
+								<th width="52%">Nombre</th>
+								<th width="10%">Precio</th>
+								<th width="30%">Anotaciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for producto in object_list %}
+							<tr>
+								<td>{{ producto.cantidad }}</td>
+								<td>{{ producto.nombre }}</td>
+								<td>${{ producto.precio|intcomma }}</td>
+								<td>{{ producto.anotaciones }}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+		<div class="large-3 columns">
+			<div class="panel">
+				
+			</div>
+		</div>
 	</div>
 
 {% endblock %}

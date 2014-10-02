@@ -3,7 +3,7 @@ from .views import Home, Productos
 
 urlpatterns = patterns('',
 
-	url(r'^$', home.as_view(), name="index"),
-	url(r'^$productos/', productos.as_view(), name="productos"),
+	url(r'^$', Home.as_view(), name="home"),
+	url(r'^productos/$', Productos.as_view(), name="productos"),
 
 )

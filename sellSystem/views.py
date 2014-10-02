@@ -10,4 +10,7 @@ class Home(ListView):
 	queryset = Producto.objects.filter(cantidad__lte=F('reserva'))
 
 
-class Productos
+class Productos(ListView):
+	template_name = 'productos.html'
+
+	queryset = Producto.objects.all()
