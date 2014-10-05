@@ -27,7 +27,7 @@ class Productos(ListView):
 
 		q_objects = []
 
-		if q.itervalues():
+		if nombre is not None or tipo is not None or facturado is not None:
 			
 			if nombre != u'' or tipo != u'' or facturado != u'':
 				if nombre != u'':
