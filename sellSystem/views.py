@@ -15,7 +15,7 @@ class Home(ListView):
 class Productos(ListView):
 	template_name = 'productos.html'
 	model = 'Producto'
-	paginate_by = 20
+	paginate_by = 5
 
 	#queryset = Producto.objects.all()
 	
@@ -24,7 +24,6 @@ class Productos(ListView):
 		nombre = q.get('nombre')
 		tipo = q.get('tipo')
 		facturado = q.get('facturado')
-
 		q_objects = []
 
 		if nombre is not None or tipo is not None or facturado is not None:
@@ -39,11 +38,23 @@ class Productos(ListView):
 				if facturado != u'':
 					q_objects.append( Q(facturado=int(facturado)) )
 
-				qset = Producto.objects.filter(reduce(operator.or_, q_objects)).distinct()
+				qset = Producto.objects.filter(reduce(operator.and_, q_objects)).distinct()
 			else:
-				qset = []
+				qset = Producto.objects.all()
 
 		else:
 			qset = Producto.objects.all()
 
 		return qset
+
+	def get_context_data(self, **kwargs):
+		# Llamamos ala implementacion primero del  context
+		context = super(Productos, self).get_context_data(**kwargs)
+		# Agregamos el publisher
+
+		q = self.request.GET.copy()
+		if q.has_key('page'):
+			del q['page']
+
+		context['queries'] = q
+		return context
