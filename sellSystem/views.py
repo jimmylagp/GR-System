@@ -15,7 +15,7 @@ class Home(ListView):
 class Productos(ListView):
 	template_name = 'productos.html'
 	model = 'Producto'
-	paginate_by = 5
+	paginate_by = 20
 
 	#queryset = Producto.objects.all()
 	
@@ -57,4 +57,5 @@ class Productos(ListView):
 			del q['page']
 
 		context['queries'] = q
+		context['reservas'] = Producto.objects.filter(cantidad__lte=F('reserva'))
 		return context

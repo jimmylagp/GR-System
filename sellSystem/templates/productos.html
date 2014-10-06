@@ -10,7 +10,7 @@
 			
 			<div class="row">
 				<div class="large-12 columns">
-					{% if  request.GET %}
+					{% if  queries %}
 						{% if object_list %}
 						<div data-alert class="alert-box info radius">
 							Resultados para "{{ request.GET.nombre }}".
@@ -30,7 +30,7 @@
 								<div class="large-6 columns">
 									<div class="row">
 										<div class="large-12 columns">
-											<input name="nombre" type="search" placeholder="Buscar un producto">
+											<input name="nombre" type="search" placeholder="Buscar un producto...">
 										</div>
 									</div>
 								</div>
@@ -61,7 +61,7 @@
 			<div class="row">
 				<div class="large-12 columns">
 					{{ url }}
-					<table>
+					<table width="100%">
 						<thead>
 							<tr>
 								<th width="8%">Cantidad</th>
@@ -121,7 +121,14 @@
 		</div>
 		<div class="large-3 columns">
 			<div class="panel">
-				
+				<h5>Productos en reserva</h5>
+				<ul>
+					{% for producto in reservas %}
+					<li>
+						<span>{{ producto.nombre }}</span>
+					</li>
+					{% endfor %}
+				</ul>
 			</div>
 		</div>
 	</div>
