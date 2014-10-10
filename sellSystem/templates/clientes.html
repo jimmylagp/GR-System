@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load humanize %}
 
-{% block title %}Lista de productos{% endblock %}
+{% block title %}Lista de clientes{% endblock %}
 
 {% block content %}
 
@@ -23,29 +23,23 @@
 						</div>
 						{% endif %}
 					{% endif %}
-					<form action="/productos/" method="GET">
+					<form action="/clientes/" method="GET">
 						<div class="panel">
 							
 							<div class="row">
-								<div class="large-6 columns">
+								<div class="large-8 columns">
 									<div class="row">
 										<div class="large-12 columns">
-											<input name="nombre" type="search" placeholder="Buscar un producto...">
+											<input name="nombre" type="search" placeholder="Buscar un cliente...">
 										</div>
 									</div>
 								</div>
 								<div class="large-2 columns">
-									<select name="tipo">
-										<option value="">Tipo</option>
-										<option value="0">Bicicleta</option>
-										<option value="1">Motocicleta</option>
-									</select>
-								</div>
-								<div class="large-2 columns">
-									<select name="facturado">
-										<option value="">Facturables</option>
-										<option value="1">Facturados</option>
-										<option value="0">No Facturados</option>
+									<select name="ruta">
+										<option value="">Rutas</option>
+									{% for ruta in rutas %}
+										<option value="{{ ruta.id }}">{{ ruta.nombre }}</option>
+									{% endfor %}
 									</select>
 								</div>
 								<div class="large-2 columns">
@@ -63,20 +57,21 @@
 					<table width="100%">
 						<thead>
 							<tr>
-								<th width="10%">Cantidad</th>
-								<th width="70%">Nombre</th>
-								<th width="10%">Precio</th>
-								<th width="10%">Lugar</th>
+								<th width="50%">Nombre</th>
+								<th width="20%">Ciudad</th>
+								<th width="10%">E-mail</th>
+								<th width="10%">Teléfono</th>
+								<th width="10%">Ruta</th>
 							</tr>
 						</thead>
 						<tbody>
-							{% for producto in object_list %}
+							{% for cliente in object_list %}
 							<tr>
-								<td>{{ producto.cantidad }}</td>
-								<td>
-									<span data-tooltip aria-haspopup="true" class="has-tip tip-top" title="{{ producto.anotacion }}">{{ producto.nombre }}</span></td>
-								<td>${{ producto.precio|intcomma }}</td>
-								<td>{{ producto.fila }}{{ producto.anaquel }}{{ producto.nivel }}</td>
+								<td>{{ cliente.nombre }} {{ cliente.apellidos }}</td>
+								<td>{{ cliente.ciudad }}</td>
+								<td>{{ cliente.email }}</td>
+								<td>{{ cliente.telefono }}</td>
+								<td>{{ cliente.ruta }}</td>
 							</tr>
 							{% endfor %}
 						</tbody>
@@ -121,14 +116,7 @@
 		</div>
 		<div class="large-3 columns">
 			<div class="panel">
-				<h5>Productos en reserva</h5>
-				<ul>
-					{% for producto in reservas %}
-					<li>
-						<span>{{ producto.nombre }}</span>
-					</li>
-					{% endfor %}
-				</ul>
+				
 			</div>
 		</div>
 	</div>

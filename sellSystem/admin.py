@@ -69,8 +69,8 @@ class ReadOnlyModelAdmin(admin.ModelAdmin):
 	#	return False
 
 class ClienteAdmin(admin.ModelAdmin):
-	list_display = ("nombre", "apellidos", "ciudad", "id_ruta")
-	list_filter = ("id_ruta",)
+	list_display = ("nombre", "apellidos", "ciudad", "ruta")
+	list_filter = ("ruta",)
 	search_fields = ("nombre",)
 
 class ProveedorAdmin(admin.ModelAdmin):
@@ -78,9 +78,9 @@ class ProveedorAdmin(admin.ModelAdmin):
 	search_fields = ("nombre",)
 
 class ProductoAdmin(admin.ModelAdmin):
-	list_display = ("cantidad", "nombre", "precio", "tipo", "facturado", "anotaciones",)
+	list_display = ("cantidad", "reserva","nombre", "precio", "tipo", "facturado", "fila", "anaquel", "nivel", "anotacion",)
 	list_display_links = ("nombre",)
-	list_filter = ("id_proveedor", TipoProducto, ReservaProducto, Facturado,)
+	list_filter = ("proveedor", TipoProducto, ReservaProducto, Facturado,)
 	search_fields = ("nombre",)
 
 class PedidoAdmin(ReadOnlyModelAdmin):

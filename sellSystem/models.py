@@ -31,7 +31,7 @@ class Cliente (models.Model):
 	telefono = models.CharField(max_length=25, verbose_name='Teléfono')
 	creacion = models.DateTimeField(auto_now=False, auto_now_add=True,)
 	actualizacion = models.DateTimeField(auto_now=True, auto_now_add=False,)
-	id_ruta = models.ForeignKey('Ruta', verbose_name="Rutas")
+	ruta = models.ForeignKey('Ruta', verbose_name="Rutas")
 
 class Proveedor (models.Model):
 	nombre = models.CharField(max_length=150)
@@ -75,10 +75,13 @@ class Producto (models.Model):
 	tipo = models.IntegerField(choices=TIPO_PRODUCTO, default=BICICLETA)
 	facturado = models.IntegerField(choices=FACTURADO, default=NO)
 	reserva = models.IntegerField(default=0)
-	anotaciones = models.TextField()
+	fila = models.CharField(max_length=10)
+	anaquel = models.IntegerField(default=0)
+	nivel = models.IntegerField(default=0)
+	anotacion = models.TextField()
 	creacion = models.DateTimeField(auto_now=False, auto_now_add=True,)
 	actualizacion = models.DateTimeField(auto_now=True, auto_now_add=False,)
-	id_proveedor = models.ForeignKey('Proveedor', verbose_name='Proveedores')
+	proveedor = models.ForeignKey('Proveedor', verbose_name='Proveedores')
 
 	def __unicode__(self):
 		return '%s' % (self.nombre)
