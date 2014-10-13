@@ -107,4 +107,52 @@ class Clientes(ListView):
 
 		context['queries'] = q
 		context['rutas'] = Ruta.objects.all()
+		context['reservas'] = Producto.objects.filter(cantidad__lte=F('reserva'))
+		return context
+
+class Rutas (ListView):
+	template_name = 'rutas.html'
+	model = 'Ruta'
+	paginate_by = 20
+
+	def get_queryset(self):
+		q = self.request.GET
+		nombre = q.get('nombre')
+		ruta = q.get('ruta')
+		q_objects = []
+
+		if nombre is not None or ruta is not None:
+			
+			if nombre != u'' or ruta != u'':
+				
+				if nombre != u'' and nombre is not None:
+					q_objects.append( Q(nombre__icontains=nombre) )
+
+				if ruta != u'' and ruta is not None:
+					q_objects.append( Q(ruta=int(ruta)) )
+
+				
+				qset = Cliente.objects.filter(reduce(operator.and_, q_objects)).distinct()
+			else:
+				
+				qset = Cliente.objects.all()
+
+		else:
+			qset = Cliente.objects.all()
+
+		return qset
+
+
+	def get_context_data(self, **kwargs):
+		# Llamamos ala implementacion primero del  context
+		context = super(Clientes, self).get_context_data(**kwargs)
+		# Agregamos el publisher
+
+		q = self.request.GET.copy()
+		if q.has_key('page'):
+			del q['page']
+
+		context['queries'] = q
+		context['rutas'] = Ruta.objects.all()
+		context['reservas'] = Producto.objects.filter(cantidad__lte=F('reserva'))
 		return context
