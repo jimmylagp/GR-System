@@ -23,14 +23,14 @@
 						</div>
 						{% endif %}
 					{% endif %}
-					<form action="/rutas/" method="GET">
+					<form action="/proveedores/" method="GET">
 						<div class="panel">
 							
 							<div class="row">
 								<div class="large-8 columns">
 									<div class="row">
 										<div class="large-12 columns">
-											<input name="nombre" type="search" placeholder="Buscar una ruta..." value="{{ request.GET.nombre }}">
+											<input name="nombre" type="search" placeholder="Buscar un proveedor..." value="{{ request.GET.nombre }}">
 										</div>
 									</div>
 								</div>
@@ -52,16 +52,18 @@
 						<thead>
 							<tr>
 								<th width="50%">Nombre</th>
-								<th width="20%">Clientes</th>
-								<th width="30%">Ingreso Mensual</th>
+								<th width="20%">Empresa</th>
+								<th width="30%">Teléfono</th>
+								<th width="30%">E-mail</th>
 							</tr>
 						</thead>
 						<tbody>
-							{% for ruta in object_list %}
+							{% for proveedor in object_list %}
 							<tr>
-								<td>{{ ruta.nombre }}</td>
-								<td>--</td>
-								<td>--</td>
+								<td>{{ proveedor.nombre }} {{ proveedor.apellidos }}</td>
+								<td>{{ proveedor.empresa }}</td>
+								<td>{{ proveedor.telefono }}</td>
+								<td>{{ proveedor.email }}</td>
 							</tr>
 							{% endfor %}
 						</tbody>

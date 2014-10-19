@@ -49,23 +49,23 @@
 
 				<li class="divider"></li>
 				<li>
-					<a href="#">Inicio</a>
+					<a href="/">Inicio</a>
 				</li>
 				<li class="divider"></li>
 				<li>
-					<a href="#">Productos</a>
+					<a href="/productos/">Productos</a>
 				</li>
 				<li class="divider"></li>
 				<li>
-					<a href="#">Pedidos</a>
+					<a href="/pedidos/">Pedidos</a>
 				</li>
 				<li class="divider"></li>
 				<li>
-					<a href="#">Clientes</a>
+					<a href="/clientes/">Clientes</a>
 				</li>
 				<li class="divider"></li>
 				<li>
-					<a href="#">Proveedores</a>
+					<a href="/proveedores/">Proveedores</a>
 				</li>
 			</ul>
 
@@ -81,5 +81,6 @@
 	<script src="{{STATIC_URL}}js/vendor/jquery.js"></script>
 	<script src="{{STATIC_URL}}js/foundation.min.js"></script>
 	<script>$(document).foundation();</script>
+	{% block js %}{% endblock %}
 </body>
 </html>

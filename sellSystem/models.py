@@ -82,6 +82,7 @@ class Producto (models.Model):
 	creacion = models.DateTimeField(auto_now=False, auto_now_add=True,)
 	actualizacion = models.DateTimeField(auto_now=True, auto_now_add=False,)
 	proveedor = models.ForeignKey('Proveedor', verbose_name='Proveedores')
+	pedidos = models.ManyToManyField('Pedido', editable=False)
 
 	def __unicode__(self):
 		return '%s' % (self.nombre)
@@ -94,16 +95,8 @@ class Pedido (models.Model):
 	nota = models.CharField(max_length=250)
 	creacion = models.DateTimeField(auto_now=False, auto_now_add=True,)
 	actualizacion = models.DateTimeField(auto_now=True, auto_now_add=False,)
-	id_cliente = models.ForeignKey('Cliente')
+	cliente = models.ForeignKey('Cliente')
 
 	def __unicode__(self):
 		return '%s' % (self.creacion)
-
-
-class Pd_Agregado (models.Model):
-	cantidad = models.IntegerField(default=0)
-	creacion = models.DateTimeField(auto_now=False, auto_now_add=True,)
-	actualizacion = models.DateTimeField(auto_now=True, auto_now_add=False,)
-	id_producto = models.ForeignKey('Producto')
-	id_pedido = models.ForeignKey('Pedido')
 

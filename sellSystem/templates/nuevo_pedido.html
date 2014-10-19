@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}Nuevo Pedido{% endblock %}
+
+{% block content %}
+
+	<div class="row">
+		<div class="large-9 columns">
+			
+			<div class="row">
+				<div class="large-12 columns">
+					<div class="panel">
+						
+						<div class="row">
+							<div class="large-12 columns">
+								<h4>Crear un nuevo pedido</h4>
+								<hr>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="large-4 columns">
+								<form id="ruta" action="" method="GET">
+									{% csrf_token %}
+									<label for="rutas">Paso 1:</label>
+									<select id="rutas" name="ruta">
+										<option value="">Selecciona una ruta</option>
+										{% for rutas in rutas_list %}
+										<option value="{{ rutas.id }}">{{ rutas.nombre }}</option>
+										{% endfor %}
+									</select>
+								</form>
+							</div>
+							<div class="large-8 columns">
+								
+								<form id="cliente" action="" method="POST">
+									{% csrf_token %}
+									<div class="row">
+										<div class="large-8 columns">
+											<label for="clientes">Paso 2:</label>
+											<select id="clientes" name="cliente">
+												<option value="">Selecciona un cliente</option>
+												{% for clientes in clientes_list %}
+												<option value="{{ clientes.id }}">{{ clientes.nombre }} {{ clientes.apellidos }}</option>
+												{% endfor %}
+											</select>
+										</div>
+										<div class="large-4 columns">
+											<label for="">&nbsp;</label>
+											<input type="number" name="descuento" placeholder="% Descuento...">
+											<button type="submit" class="fi-page-add postfix"> Crear pedido</button>
+										</div>
+									</div>
+								</form>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="large-3 columns">
+			<div class="panel">
+				<h5>Productos en reserva</h5>
+				<ul>
+					{% for producto in reservas %}
+					<li>
+						<span>{{ producto.nombre }}</span>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+	
+	$(document).ready(function(){
+		
+		$('select#rutas').on('change', function(){
+			$('form#ruta').submit();
+		});
+
+	});
+
+</script>
+{% endblock %}
