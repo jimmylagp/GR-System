@@ -1,6 +1,6 @@
 from django.views.generic import ListView, FormView, TemplateView
 from django.db.models import F, Q
-from sellSystem.models import Producto, Cliente, Ruta, Proveedor
+from sellSystem.models import Producto, Cliente, Ruta, Proveedor, Pedido
 from sellSystem.forms import NuevoPedidoForm, SeleccionRutaForm
 import operator
 
@@ -191,6 +191,15 @@ class NuevoPedido (FormView):
 	template_name = 'nuevo_pedido.html'
 	form_class = NuevoPedidoForm
 	success_url = '/nuevo-pedido/agregar-productos/'
+
+	def form_valid(self, form):
+		cliente = Cliente.objects.get(id=form.cleaned_data['cliente'].id)
+		pedido = Pedido()
+		pedido.cliente = cliente
+		pedido.descuento = form.cleaned_data['descuento']
+		pedido.save()
+
+		return super(NuevoPedido, self).form_valid(form)
 
 	def get_context_data(self, **kwargs):
 		context = super(NuevoPedido, self).get_context_data(**kwargs)

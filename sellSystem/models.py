@@ -33,6 +33,9 @@ class Cliente (models.Model):
 	actualizacion = models.DateTimeField(auto_now=True, auto_now_add=False,)
 	ruta = models.ForeignKey('Ruta', verbose_name="Rutas")
 
+	def __unicode__(self):
+		return '%s' % (self.nombre)
+
 class Proveedor (models.Model):
 	nombre = models.CharField(max_length=150)
 	apellidos = models.CharField(max_length=150)
