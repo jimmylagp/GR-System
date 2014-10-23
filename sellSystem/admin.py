@@ -50,23 +50,6 @@ class Facturado(admin.SimpleListFilter):
 		else:
 			return queryset
 
-class RutaParaPedidos(admin.SimpleListFilter):
-	title = "Rutas"
-	parameter_name = 'ruta'
-
-	def lookups(self, request, model_admin):
-		list_tuple = []
-		for ruta in Ruta.objects.all():
-			list_tuple.append((ruta.id, ruta.nombre))
-		
-		return list_tuple
-
-	def queryset(self, request, queryset):
-		if self.value():
-			return queryset.filter(ruta__id=self.value())
-		else:
-			return queryset
-
 class ReadOnlyModelAdmin(admin.ModelAdmin):
 	actions = None
 
@@ -102,7 +85,7 @@ class ProductoAdmin(admin.ModelAdmin):
 
 class PedidoAdmin(ReadOnlyModelAdmin):
 	list_display = ("creacion", "descuento", "pagado",)
-	list_filter = ("cliente__ruta", "cliente")
+	list_filter = ("cliente",)
 
 
 admin.site.register(Cliente, ClienteAdmin,)

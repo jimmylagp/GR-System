@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}Lista de productos{% endblock %}
+
+{% block content %}
+
+	<div class="row">
+		<div class="large-9 columns">
+			
+			<div class="row">
+				<div class="large-12 columns">
+					{% if  queries %}
+						{% if object_list %}
+						<div data-alert class="alert-box info radius">
+							Resultados para "{{ request.GET.nombre }}".
+							<a href="#" class="close">&times;</a>
+						</div>
+						{% else %}
+						<div data-alert class="alert-box warning radius">
+							No se encontro ningún resultado para "{{ request.GET.nombre }}".
+							<a href="#" class="close">&times;</a>
+						</div>
+						{% endif %}
+					{% endif %}
+					<form action="/productos/" method="GET">
+						<div class="panel">
+							
+							<div class="row">
+								<div class="large-4 columns">
+									<div class="row">
+										<div class="large-12 columns">
+											<input name="nombre" type="search" placeholder="Buscar un producto..." value="{{ request.GET.nombre }}">
+										</div>
+									</div>
+								</div>
+								<div class="large-3 columns">
+									<input id="bici" type="radio" name="tipo" value="0"><label for="bici">Bicicleta</label>
+									<input id="moto" type="radio" name="tipo" value="1"><label for="moto">Motocicleta</label>
+								</div>
+								<div class="large-3 columns">
+									<input id="facturado" type="radio" name="facturado" value="0"><label for="facturado">No Facturado</label>
+									<input id="nofacturado" type="radio" name="facturado" value="1"><label for="nofacturado">Facturado</label>
+								</div>
+								<div class="large-2 columns">
+									<button type="submit" class="button postfix">Buscar</button>
+								</div>
+							</div>
+
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="large-12 columns">
+					<table width="100%">
+						<thead>
+							<tr>
+								<th width="10%">Cantidad</th>
+								<th width="60%">Nombre</th>
+								<th width="10%">Precio</th>
+								<th width="10%">Lugar</th>
+								<th width="10%">Añadir</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for producto in object_list %}
+							<tr>
+								<td>{{ producto.cantidad }}</td>
+								<td>
+									<span data-tooltip aria-haspopup="true" class="has-tip tip-top" title="{{ producto.anotacion }}">{{ producto.nombre }}</span></td>
+								<td>${{ producto.precio|intcomma }}</td>
+								<td>{{ producto.fila }}{{ producto.anaquel }}{{ producto.nivel }}</td>
+								<td>
+									<form class="anadir" action="/nuevo-pedido/agregar-productos/" method="POST">
+										{% csrf_token %}
+										<input type="hidden" name="existencia" value="{{ producto.cantidad }}">
+										<input type="hidden" name="id" value="{{ producto.id }}">
+										<input type="number" name="cantidad">
+									</form>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+
+					{% if is_paginated %}
+					<ul class="pagination">
+						{% if page_obj.has_previous %}
+						<li class="arrow">
+							<a href="/productos/?{{ queries.urlencode }}&page={{ page_obj.previous_page_number }}">&laquo;</a>
+						</li>
+						{% else %}
+						<li class="arrow unavailable">
+							<a href="#">&laquo;</a>
+						</li>
+						{% endif %}
+						{% for num in page_obj.paginator.page_range %}
+							{% ifequal num page_obj.number %}
+						<li class="current">
+							<a href="#">{{ num }}</a>
+						</li>
+							{% else %}
+						<li>
+							<a href="?{{ queries.urlencode }}&page={{ num }}">{{ num }}</a>
+						</li>
+							{% endifequal %}
+						{% endfor %}
+						{% if page_obj.has_next %}
+						<li class="arrow">
+							<a href="/productos/?{{ queries.urlencode }}&page={{ page_obj.next_page_number }}">&raquo;</a>
+						</li>
+						{% else %}
+						<li class="arrow">
+							<a href="/productos/#">&raquo;</a>
+						</li>
+						{% endif %}
+					</ul>
+					{% endif  %}
+				</div>
+			</div>
+
+		</div>
+		<div class="large-3 columns">
+			<div class="panel">
+				<h5>Total del pedido</h5>
+				<p>$0.00 - {{ pedido.descuento }}% = $0.00</p>
+				<hr>
+
+				<h5>Productos en reserva</h5>
+				<ul>
+					{% for producto in reservas %}
+					<li>
+						<span>{{ producto.nombre }}</span>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{%block js%}
+<script>
+	$('.anadir input[type="number"]').on('keydown',function(e){
+		if(e.which == 13)
+		{
+			$(this).perent('form').submit();
+			return false;
+		}
+	});
+</script>
+{% endblock %}

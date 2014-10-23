@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from .views import Home, Productos, Clientes, Rutas, Proveedores, NuevoPedido
+from .views import Home, Productos, Clientes, Rutas, Proveedores, NuevoPedido, AgregarProductos
 
 urlpatterns = patterns('',
 
@@ -9,5 +9,7 @@ urlpatterns = patterns('',
 	url(r'^rutas/$', Rutas.as_view(), name="rutas"),
 	url(r'^proveedores/$', Proveedores.as_view(), name="proveedores"),
 	url(r'^nuevo-pedido/$', NuevoPedido.as_view(), name="nuevoPedido"),
+	url(r'^nuevo-pedido/$', NuevoPedido.as_view(), name="nuevoPedido"),
+	url(r'^nuevo-pedido/agregar-productos/$', AgregarProductos.as_view(), name="agregarProductos"),
 
 )

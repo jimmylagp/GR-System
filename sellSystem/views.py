@@ -1,7 +1,8 @@
 from django.views.generic import ListView, FormView, TemplateView
+from django.shortcuts import redirect
 from django.db.models import F, Q
 from sellSystem.models import Producto, Cliente, Ruta, Proveedor, Pedido
-from sellSystem.forms import NuevoPedidoForm, SeleccionRutaForm
+from sellSystem.forms import NuevoPedidoForm, SeleccionRutaForm, AnadirProductoFrom
 import operator
 
 # Create your views here.
@@ -65,6 +66,7 @@ class Productos(ListView):
 		context['reservas'] = Producto.objects.filter(cantidad__lte=F('reserva'))
 		return context
 
+
 class Clientes(ListView):
 	template_name = 'clientes.html'
 	model = 'Cliente'
@@ -112,6 +114,7 @@ class Clientes(ListView):
 		context['reservas'] = Producto.objects.filter(cantidad__lte=F('reserva'))
 		return context
 
+
 class Rutas (ListView):
 	template_name = 'rutas.html'
 	model = 'Ruta'
@@ -150,6 +153,7 @@ class Rutas (ListView):
 		context['reservas'] = Producto.objects.filter(cantidad__lte=F('reserva'))
 		return context
 
+
 class Proveedores (ListView):
 	template_name = 'proveedores.html'
 	model = 'Proveedor'
@@ -187,6 +191,7 @@ class Proveedores (ListView):
 		context['reservas'] = Producto.objects.filter(cantidad__lte=F('reserva'))
 		return context
 
+
 class NuevoPedido (FormView):
 	template_name = 'nuevo_pedido.html'
 	form_class = NuevoPedidoForm
@@ -198,6 +203,8 @@ class NuevoPedido (FormView):
 		pedido.cliente = cliente
 		pedido.descuento = form.cleaned_data['descuento']
 		pedido.save()
+
+		self.request.session["pedido_actual"] = pedido.id
 
 		return super(NuevoPedido, self).form_valid(form)
 
@@ -214,4 +221,71 @@ class NuevoPedido (FormView):
 		context['reservas'] = Producto.objects.filter(cantidad__lte=F('reserva'))
 		context['rutas_list'] = Ruta.objects.all()
 		context['ruta_form'] = ruta_form
+		return context
+
+
+class AgregarProductos (ListView):
+	template_name = 'agregar_productos.html'
+	model = 'Producto'
+	paginate_by = 30
+
+	def post(self, request, *args, **kwargs):
+		form = AnadirProductoFrom(request.POST)
+		
+		if form.is_valid():
+			existencia = form.cleaned_data['existencia']
+			producto_id = form.cleaned_data['id']
+			cantidad = form.cleaned_data['cantidad']
+			pedido_id = request.session["pedido_actual"]
+
+			producto = Producto.objects.get(id=producto_id)
+			pedido = Pedido.objects.get(id=pedido_id)
+			producto.pedidos.add(pedido)
+
+		return redirect('/nuevo-pedido/agregar-productos/')
+	
+	def get_queryset(self):
+		q = self.request.GET
+		nombre = q.get('nombre')
+		tipo = q.get('tipo')
+		facturado = q.get('facturado')
+		q_objects = []
+
+		if nombre is not None or tipo is not None or facturado is not None:
+			
+			if nombre != u'' or tipo != u'' or facturado != u'':
+				
+				if nombre != u'' and nombre is not None:
+					q_objects.append( Q(nombre__icontains=nombre) )
+
+				if tipo != u'' and tipo is not None:
+					q_objects.append( Q(tipo=int(tipo)) )
+				
+				if facturado != u'' and facturado is not None:
+					q_objects.append( Q(facturado=int(facturado)) )
+
+				if not q_objects:
+					qset = Producto.objects.all()
+				else:
+					qset = Producto.objects.filter(reduce(operator.and_, q_objects)).distinct()
+			else:
+				
+				qset = Producto.objects.all()
+
+		else:
+			qset = Producto.objects.all()
+
+		return qset
+
+	def get_context_data(self, **kwargs):
+		context = super(AgregarProductos, self).get_context_data(**kwargs)
+
+		q = self.request.GET.copy()
+		if q.has_key('page'):
+			del q['page']
+
+		context['queries'] = q
+		context['reservas'] = Producto.objects.filter(cantidad__lte=F('reserva'))
+		context['peidido'] = Pedido.objects.get(id=self.request.session['pedido_actual'])
+
 		return context
