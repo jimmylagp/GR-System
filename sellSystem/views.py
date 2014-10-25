@@ -287,5 +287,6 @@ class AgregarProductos (ListView):
 		context['queries'] = q
 		context['reservas'] = Producto.objects.filter(cantidad__lte=F('reserva'))
 		context['peidido'] = Pedido.objects.get(id=self.request.session['pedido_actual'])
+		context['productos_agregados'] = Producto.objects.filter(pedidos=self.request.session["pedido_actual"])
 
 		return context
